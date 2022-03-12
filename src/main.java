@@ -11,6 +11,7 @@ public class main extends JPanel {
     static Scanner Cin=new Scanner(System.in);
     static int Weight[];
     static int Value[];
+    static int Suffix[];
     static double PCR[]; //Price-Cost Ratio
     static int m,n;
 
@@ -29,12 +30,14 @@ public class main extends JPanel {
             n=In.nextInt();
             Weight=new int[10010];
             Value=new int[10010];
+            Suffix=new int[10010];
             PCR=new double[10010];
             for (int i=1;i<=n;i++) {
                 Weight[i] = In.nextInt();
                 Value[i] = In.nextInt();
+                Suffix[i] = i;
                 PCR[i] = (double) Value[i] / (double) Weight[i];
-                System.out.printf("%d %d %.3f\n", Weight[i], Value[i], PCR[i]);
+                System.out.printf("重量: %4d 价值: %4d 性价比: %4.3f\n", Weight[i], Value[i], PCR[i]);
             }
         } catch (IOException e) {
             System.out.println("没有该文件");
@@ -60,6 +63,7 @@ public class main extends JPanel {
                     SwapDouble(PCR,i,j);
                     SwapInt(Weight,i,j);
                     SwapInt(Value,i,j);
+                    SwapInt(Suffix,i,j);
                 }
             }
         }
@@ -115,18 +119,28 @@ public class main extends JPanel {
         Frame.setVisible(true);
     }
 
+    static int Vectors[];
+
     public static void Greedy() {
+        Vectors=new int[10010];
+        for (int i=1;i<=n;i++) Vectors[i]=0;
         int Size=m;
         int Ans=0;
         for (int i=1;i<=n;i++) {
             if (Size>Weight[i]) {
                 Size-=Weight[i];
                 Ans+=Value[i];
+                Vectors[Suffix[i]]=1;
             } else {
                 break;
             }
         }
         System.out.println("求得的解:"+Ans);
+        System.out.print("解向量: {");
+        for (int i=1;i<=n;i++) {
+            if (i!=n) System.out.print(Vectors[i]+",");
+            else System.out.println(Vectors[i]+"}");
+        }
     }
 
     public static void DP() {
