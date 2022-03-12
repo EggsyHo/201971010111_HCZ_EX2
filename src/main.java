@@ -57,7 +57,7 @@ public class main extends JPanel {
     public static void DataSort() {
         for (int i=1;i<=n-1;i++) {
             for (int j=i+1;j<=n;j++) {
-                if (PCR[i]>PCR[j]) {
+                if (PCR[i]<PCR[j]) {
                     SwapDouble(PCR,i,j);
                     SwapInt(Weight,i,j);
                     SwapInt(Value,i,j);
@@ -116,9 +116,39 @@ public class main extends JPanel {
         Frame.setVisible(true);
     }
 
+    public static void Greedy() {
+        int Size=m;
+        int Ans=0;
+        for (int i=1;i<=n;i++) {
+            if (Size>Weight[i]) {
+                Size-=Weight[i];
+                Ans+=Value[i];
+            } else {
+                break;
+            }
+        }
+        System.out.println(Ans);
+    }
+
+    public static void SelectSolution() {
+        System.out.println("请选择一种算法解决D{0-1}问题 (输入1-3)");
+        System.out.println("1:贪心\t2:动态规划\t3:回溯");
+        int Operation;
+        Operation=Cin.nextInt();
+        double RunTime;
+        if (Operation==1) {
+            long StartTime=System.nanoTime();
+            Greedy();
+            long EndTime=System.nanoTime();
+            RunTime=(EndTime-StartTime)/1000000.0;
+            System.out.println("运行时间: "+RunTime+"ms");
+        }
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         ReadFile();
         PlottingScatterPlots();
         DataSort();
+        SelectSolution();
     }
 }
