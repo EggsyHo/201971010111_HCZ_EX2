@@ -1,6 +1,11 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.io.*;
+import java.time.Year;
 import java.util.*;
+
 
 public class main extends JPanel {
     static Scanner Cin=new Scanner(System.in);
@@ -9,6 +14,7 @@ public class main extends JPanel {
     static double PCR[]; //Price-Cost Ratio
     static int DP[];
     static int m,n;
+
     public static void ReadFile() {
         int Option;
         System.out.println("请选择要处理的数据 (输入0-9):");
@@ -35,7 +41,84 @@ public class main extends JPanel {
             System.out.println("没有该文件");
         }
     }
+
+    public static void SwapInt(int Data[],int a,int b) {
+        int temp=Data[a];
+        Data[a]=Data[b];
+        Data[b]=temp;
+    }
+
+    public static void SwapDouble(double Data[],int a,int b) {
+        double temp=Data[a];
+        Data[a]=Data[b];
+        Data[b]=temp;
+    }
+
+    public static void DataSort() {
+        for (int i=1;i<=n-1;i++) {
+            for (int j=i+1;j<=n;j++) {
+                if (PCR[i]>PCR[j]) {
+                    SwapDouble(PCR,i,j);
+                    SwapInt(Weight,i,j);
+                    SwapInt(Value,i,j);
+                }
+            }
+        }
+    }
+
+    final int Space=20;
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2D=(Graphics2D)g;
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        int Width=getWidth();
+        int Height=getHeight();
+        g2D.draw(new Line2D.Double(Space,Space,Space,Height-Space));
+        g2D.draw(new Line2D.Double(Space,Height-Space,Width-Space,Height-Space));
+        Font font=new Font("Sarasa Fixed HC",Font.PLAIN,10);
+        g2D.setFont(font);
+        g2D.drawString("0",Space-10,Height-Space+10);
+        g2D.drawString("Weight",Width-Space-20,Height-Space+10);
+        g2D.drawString("Value",Space-10,Space-5);
+        double xAxis=(double)(Width-2*Space)/getMaxWeight();
+        double yAxis=(double)(Height-2*Space)/getMaxValue();
+        g2D.setPaint(Color.pink);
+        for (int i=1;i<=n;i++) {
+            double x=Space+xAxis*Weight[i];
+            double y=Height-Space-yAxis*Value[i];
+            g2D.fill(new Ellipse2D.Double(x-2,y-2,4,4));
+        }
+    }
+
+    private int getMaxWeight() {
+        int MaxW=-Integer.MAX_VALUE;
+        for (int i=1;i<=n;i++) {
+            if (Weight[i]>MaxW) MaxW=Weight[i];
+        }
+        return MaxW;
+    }
+
+    private int getMaxValue() {
+        int MaxV=-Integer.MAX_VALUE;
+        for (int i=1;i<=n;i++) {
+            if (Value[i]>MaxV) MaxV=Value[i];
+        }
+        return MaxV;
+    }
+
+    public static void PlottingScatterPlots() {
+        JFrame Frame=new JFrame();
+        Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Frame.add(new main());
+        Frame.setSize(300,300);
+        Frame.setLocation(200,200);
+        Frame.setVisible(true);
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         ReadFile();
+        PlottingScatterPlots();
+        DataSort();
     }
 }
