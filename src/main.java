@@ -140,6 +140,41 @@ public class main extends JPanel {
         System.out.println("求得的解:"+f[m]);
     }
 
+    static int Ans=0;
+    static int CW=0; //Current Weight
+    static int CV=0; //Current Value
+
+    public static double Bound(int Index) {
+        double RemainW=m-CW;
+        double CurrentV=CV;
+        while (Index<n && Weight[Index]<=RemainW) {
+            RemainW-=Weight[Index];
+            CurrentV+=Value[Index];
+            Index++;
+        }
+        if (Index<=n) {
+            CurrentV+=PCR[Index]*RemainW;
+        }
+        return CurrentV;
+    }
+
+    public static void BackTrack(int Index) {
+        if (Index>n) {
+            Ans=CV;
+            return;
+        }
+        if (CW+Weight[Index]<=m) {
+            CW+=Weight[Index];
+            CV+=Value[Index];
+            BackTrack(Index+1);
+            CW-=Weight[Index];
+            CV-=Value[Index];
+        }
+        if (Bound(Index+1)>Ans) {
+            BackTrack(Index+1);
+        }
+    }
+
     public static void SelectSolution() {
         System.out.println("请选择一种算法解决D{0-1}问题 (输入1-3)");
         System.out.println("1:贪心\t2:动态规划\t3:回溯");
@@ -158,6 +193,14 @@ public class main extends JPanel {
             DP();
             long EndTime=System.nanoTime();
             RunTime=(EndTime-StartTime)/1000000.0;
+            System.out.println("运行时间: "+RunTime+"ms");
+        }
+        if (Operation==3) {
+            long StartTime=System.nanoTime();
+            BackTrack(1);
+            long EndTime=System.nanoTime();
+            RunTime=(EndTime-StartTime)/1000000.0;
+            System.out.println("求得的解: "+Ans);
             System.out.println("运行时间: "+RunTime+"ms");
         }
     }
