@@ -12,7 +12,6 @@ public class main extends JPanel {
     static int Weight[];
     static int Value[];
     static double PCR[]; //Price-Cost Ratio
-    static int DP[];
     static int m,n;
 
     public static void ReadFile() {
@@ -127,7 +126,19 @@ public class main extends JPanel {
                 break;
             }
         }
-        System.out.println(Ans);
+        System.out.println("求得的解:"+Ans);
+    }
+
+    public static void DP() {
+        int Size=m;
+        int f[];
+        f=new int[10010];
+        for (int i=1;i<=n;i++) {
+            for (int j=m;j>=Weight[i];j--) {
+                f[j]=Math.max(f[j],f[j-Weight[i]]+Value[i]);
+            }
+        }
+        System.out.println("求得的解:"+f[m]);
     }
 
     public static void SelectSolution() {
@@ -139,6 +150,13 @@ public class main extends JPanel {
         if (Operation==1) {
             long StartTime=System.nanoTime();
             Greedy();
+            long EndTime=System.nanoTime();
+            RunTime=(EndTime-StartTime)/1000000.0;
+            System.out.println("运行时间: "+RunTime+"ms");
+        }
+        if (Operation==2) {
+            long StartTime=System.nanoTime();
+            DP();
             long EndTime=System.nanoTime();
             RunTime=(EndTime-StartTime)/1000000.0;
             System.out.println("运行时间: "+RunTime+"ms");
