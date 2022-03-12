@@ -130,7 +130,6 @@ public class main extends JPanel {
     }
 
     public static void DP() {
-        int Size=m;
         int f[];
         f=new int[10010];
         for (int i=1;i<=n;i++) {
