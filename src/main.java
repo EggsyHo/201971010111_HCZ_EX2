@@ -14,6 +14,7 @@ public class main extends JPanel {
     static int Suffix[];
     static double PCR[]; //Price-Cost Ratio
     static int m,n;
+    static int TotalValue=0;
 
     public static void ReadFile() {
         int Option;
@@ -36,6 +37,7 @@ public class main extends JPanel {
                 Weight[i] = In.nextInt();
                 Value[i] = In.nextInt();
                 Suffix[i] = i;
+                TotalValue+=Value[i];
                 PCR[i] = (double) Value[i] / (double) Weight[i];
                 System.out.printf("重量: %4d 价值: %4d 性价比: %4.3f\n", Weight[i], Value[i], PCR[i]);
             }
@@ -221,8 +223,11 @@ public class main extends JPanel {
         }
     }
 
+    static int ArcAns;
+
     public static void WriteFile(int Ans, double RunTime, int AnsRoute[]) throws FileNotFoundException {
         PrintStream Cout=new PrintStream("res.txt");
+        ArcAns=Ans;
         Cout.println("求得的解: "+Ans);
         Cout.println("运行时间: "+RunTime+"s");
         Cout.close();
@@ -283,8 +288,9 @@ public class main extends JPanel {
 
     public static void main(String[] args) throws FileNotFoundException {
         ReadFile();
-        PlottingScatterPlots();
         DataSort();
+        PlottingScatterPlots();
         SelectSolution();
+        new Addition(ArcAns, TotalValue);
     }
 }
