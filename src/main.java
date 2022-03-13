@@ -145,8 +145,27 @@ public class main extends JPanel {
         }
     }
 
+    static int Path[];
+    static int f[];
+
+    public static void FindPath(int Size) {
+        while (Size>0) {
+            for (int i=1;i<=n;i++) {
+                if (Path[Suffix[i]]==0) {
+                    if (Size-Weight[i]>=0) {
+                        if (f[Size-Weight[i]]+Value[i]==f[Size]) {
+                            Path[Suffix[i]]=1;
+                            Size-=Weight[i];
+                            break;
+                        }
+                    }
+                }
+            }
+            Size--;
+        }
+    }
+
     public static void DP() {
-        int f[];
         f=new int[10010];
         for (int i=1;i<=n;i++) {
             for (int j=m;j>=Weight[i];j--) {
@@ -155,6 +174,14 @@ public class main extends JPanel {
         }
         Res=f[m];
         System.out.println("求得的解:"+f[m]);
+        Path=new int[10010];
+        for (int i=1;i<=n;i++) Path[i]=0;
+        FindPath(m);
+        System.out.print("解向量: {");
+        for (int i=1;i<=n;i++) {
+            if (i!=n) System.out.print(Path[i]+",");
+            else System.out.println(Path[i]+"}");
+        }
     }
 
     static int Ans=0;
@@ -194,7 +221,7 @@ public class main extends JPanel {
         }
     }
 
-    public static void WriteFile(int Ans, double RunTime) throws FileNotFoundException {
+    public static void WriteFile(int Ans, double RunTime, int AnsRoute[]) throws FileNotFoundException {
         PrintStream Cout=new PrintStream("res.txt");
         Cout.println("求得的解: "+Ans);
         Cout.println("运行时间: "+RunTime+"s");
@@ -213,6 +240,11 @@ public class main extends JPanel {
             long EndTime=System.nanoTime();
             RunTime=(EndTime-StartTime)/1000000000.0;
             System.out.println("运行时间: "+RunTime+"s");
+            try {
+                WriteFile(Res,RunTime,Vectors);
+            } catch (IOException e) {
+
+            }
         }
         if (Operation==2) {
             long StartTime=System.nanoTime();
@@ -220,6 +252,11 @@ public class main extends JPanel {
             long EndTime=System.nanoTime();
             RunTime=(EndTime-StartTime)/1000000000.0;
             System.out.println("运行时间: "+RunTime+"s");
+            try {
+                WriteFile(Res,RunTime,Path);
+            } catch (IOException e) {
+
+            }
         }
         if (Operation==3) {
             Flag=new int[10010];
@@ -236,11 +273,11 @@ public class main extends JPanel {
             }
             System.out.println("求得的解: "+Ans);
             System.out.println("运行时间: "+RunTime+"ms");
-        }
-        try {
-            WriteFile(Res,RunTime);
-        } catch (IOException e) {
+            try {
+                WriteFile(Res,RunTime,Flag);
+            } catch (IOException e) {
 
+            }
         }
     }
 
