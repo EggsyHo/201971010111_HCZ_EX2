@@ -119,6 +119,7 @@ public class main extends JPanel {
         Frame.setVisible(true);
     }
 
+    static int Res;
     static int Vectors[];
 
     public static void Greedy() {
@@ -135,6 +136,7 @@ public class main extends JPanel {
                 break;
             }
         }
+        Res=Ans;
         System.out.println("求得的解:"+Ans);
         System.out.print("解向量: {");
         for (int i=1;i<=n;i++) {
@@ -151,12 +153,14 @@ public class main extends JPanel {
                 f[j]=Math.max(f[j],f[j-Weight[i]]+Value[i]);
             }
         }
+        Res=f[m];
         System.out.println("求得的解:"+f[m]);
     }
 
     static int Ans=0;
     static int CW=0; //Current Weight
     static int CV=0; //Current Value
+    static int Flag[];
 
     public static double Bound(int Index) {
         double RemainW=m-CW;
@@ -180,6 +184,7 @@ public class main extends JPanel {
         if (CW+Weight[Index]<=m) {
             CW+=Weight[Index];
             CV+=Value[Index];
+            Flag[Suffix[Index]]=1;
             BackTrack(Index+1);
             CW-=Weight[Index];
             CV-=Value[Index];
@@ -189,33 +194,53 @@ public class main extends JPanel {
         }
     }
 
+    public static void WriteFile(int Ans, double RunTime) throws FileNotFoundException {
+        PrintStream Cout=new PrintStream("res.txt");
+        Cout.println("求得的解: "+Ans);
+        Cout.println("运行时间: "+RunTime+"s");
+        Cout.close();
+    }
+
     public static void SelectSolution() {
         System.out.println("请选择一种算法解决D{0-1}问题 (输入1-3)");
         System.out.println("1:贪心\t2:动态规划\t3:回溯");
         int Operation;
         Operation=Cin.nextInt();
-        double RunTime;
+        double RunTime=0.0;
         if (Operation==1) {
             long StartTime=System.nanoTime();
             Greedy();
             long EndTime=System.nanoTime();
-            RunTime=(EndTime-StartTime)/1000000.0;
-            System.out.println("运行时间: "+RunTime+"ms");
+            RunTime=(EndTime-StartTime)/1000000000.0;
+            System.out.println("运行时间: "+RunTime+"s");
         }
         if (Operation==2) {
             long StartTime=System.nanoTime();
             DP();
             long EndTime=System.nanoTime();
-            RunTime=(EndTime-StartTime)/1000000.0;
-            System.out.println("运行时间: "+RunTime+"ms");
+            RunTime=(EndTime-StartTime)/1000000000.0;
+            System.out.println("运行时间: "+RunTime+"s");
         }
         if (Operation==3) {
+            Flag=new int[10010];
+            for (int i=1;i<=n;i++) Flag[i]=0;
             long StartTime=System.nanoTime();
             BackTrack(1);
             long EndTime=System.nanoTime();
-            RunTime=(EndTime-StartTime)/1000000.0;
+            RunTime=(EndTime-StartTime)/1000000000.0;
+            Res=Ans;
+            System.out.print("解向量: {");
+            for (int i=1;i<=n;i++) {
+                if (i!=n) System.out.print(Flag[i]+",");
+                else System.out.println(Flag[i]+"}");
+            }
             System.out.println("求得的解: "+Ans);
             System.out.println("运行时间: "+RunTime+"ms");
+        }
+        try {
+            WriteFile(Res,RunTime);
+        } catch (IOException e) {
+
         }
     }
 
