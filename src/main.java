@@ -230,6 +230,11 @@ public class main extends JPanel {
         ArcAns=Ans;
         Cout.println("求得的解: "+Ans);
         Cout.println("运行时间: "+RunTime+"s");
+        Cout.print("解向量: {");
+        for (int i=1;i<=n;i++) {
+            if (i!=n) Cout.print(AnsRoute[i]+",");
+            else Cout.println(AnsRoute[i]+"}");
+        }
         Cout.close();
     }
 
