@@ -89,17 +89,17 @@ public class main extends JPanel {
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         int Width=getWidth();
         int Height=getHeight();
-        g2D.draw(new Line2D.Double(Space,Space,Space,Height-Space));
-        g2D.draw(new Line2D.Double(Space,Height-Space,Width-Space,Height-Space));
-        Font font=new Font("Microsoft YaHei UI",Font.PLAIN,10);
+        g2D.draw(new Line2D.Double(Space,Space,Space,Height-Space)); //绘制x轴
+        g2D.draw(new Line2D.Double(Space,Height-Space,Width-Space,Height-Space)); //绘制y轴
+        Font font=new Font("Microsoft YaHei UI",Font.PLAIN,10); //修改字体
         g2D.setFont(font);
-        g2D.drawString("0",Space-10,Height-Space+10);
+        g2D.drawString("0",Space-10,Height-Space+10); //添加文字
         g2D.drawString("Weight",Width-Space-20,Height-Space+10);
         g2D.drawString("Value",Space-10,Space-5);
         double xAxis=(double)(Width-2*Space)/getMaxWeight();
         double yAxis=(double)(Height-2*Space)/getMaxValue();
         g2D.setPaint(Color.pink);
-        for (int i=1;i<=n;i++) {
+        for (int i=1;i<=n;i++) { //开始绘制点
             double x=Space+xAxis*Weight[i];
             double y=Height-Space-yAxis*Value[i];
             g2D.fill(new Ellipse2D.Double(x-2,y-2,4,4));
@@ -196,7 +196,7 @@ public class main extends JPanel {
         f=new int[10010];
         for (int i=1;i<=n;i++) {
             for (int j=m;j>=Weight[i];j--) {
-                f[j]=Math.max(f[j],f[j-Weight[i]]+Value[i]);
+                f[j]=Math.max(f[j],f[j-Weight[i]]+Value[i]); //优化后，仅使用一维
             }
         }
         Res=f[m];
@@ -313,7 +313,7 @@ public class main extends JPanel {
                 else System.out.println(Flag[i]+"}");
             }
             System.out.println("求得的解: "+Ans);
-            System.out.println("运行时间: "+RunTime+"ms");
+            System.out.println("运行时间: "+RunTime+"s");
             try {
                 WriteFile(Res,RunTime,Flag);
             } catch (IOException e) {
