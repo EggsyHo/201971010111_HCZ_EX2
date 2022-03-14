@@ -288,8 +288,8 @@ public class main extends JPanel {
 
     public static void main(String[] args) throws FileNotFoundException {
         ReadFile();
-        DataSort();
         PlottingScatterPlots();
+        DataSort();
         SelectSolution();
         new Addition(ArcAns, TotalValue);
     }
