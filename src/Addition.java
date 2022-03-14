@@ -1,8 +1,10 @@
 import java.awt.*;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/*
+ 扩展功能（扇形图绘制）
+*/
 public class Addition extends JFrame{
     static int ArcAns,TotalValue;
     class panel extends JPanel{

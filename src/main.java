@@ -3,9 +3,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.io.*;
-import java.time.Year;
 import java.util.*;
-
 
 public class main extends JPanel {
     static Scanner Cin=new Scanner(System.in);
@@ -16,6 +14,9 @@ public class main extends JPanel {
     static int m,n;
     static int TotalValue=0;
 
+    /*
+     数据读入与处理
+     */
     public static void ReadFile() {
         int Option;
         System.out.println("请选择要处理的数据 (输入0-9):");
@@ -46,18 +47,27 @@ public class main extends JPanel {
         }
     }
 
+    /*
+     int类型数据交换
+     */
     public static void SwapInt(int Data[],int a,int b) {
         int temp=Data[a];
         Data[a]=Data[b];
         Data[b]=temp;
     }
 
+    /*
+     double类型数据交换
+     */
     public static void SwapDouble(double Data[],int a,int b) {
         double temp=Data[a];
         Data[a]=Data[b];
         Data[b]=temp;
     }
 
+    /*
+     排序
+     */
     public static void DataSort() {
         for (int i=1;i<=n-1;i++) {
             for (int j=i+1;j<=n;j++) {
@@ -96,6 +106,9 @@ public class main extends JPanel {
         }
     }
 
+    /*
+     获取最大重量
+     */
     private int getMaxWeight() {
         int MaxW=-Integer.MAX_VALUE;
         for (int i=1;i<=n;i++) {
@@ -104,6 +117,9 @@ public class main extends JPanel {
         return MaxW;
     }
 
+    /*
+     获取最大价值
+     */
     private int getMaxValue() {
         int MaxV=-Integer.MAX_VALUE;
         for (int i=1;i<=n;i++) {
@@ -112,6 +128,9 @@ public class main extends JPanel {
         return MaxV;
     }
 
+    /*
+     散点图绘制
+     */
     public static void PlottingScatterPlots() {
         JFrame Frame=new JFrame();
         Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,6 +143,9 @@ public class main extends JPanel {
     static int Res;
     static int Vectors[];
 
+    /*
+     贪心算法
+     */
     public static void Greedy() {
         Vectors=new int[10010];
         for (int i=1;i<=n;i++) Vectors[i]=0;
@@ -167,6 +189,9 @@ public class main extends JPanel {
         }
     }
 
+    /*
+     动态规划算法
+     */
     public static void DP() {
         f=new int[10010];
         for (int i=1;i<=n;i++) {
@@ -205,6 +230,9 @@ public class main extends JPanel {
         return CurrentV;
     }
 
+    /*
+     回溯算法
+     */
     public static void BackTrack(int Index) {
         if (Index>n) {
             Ans=CV;
@@ -225,6 +253,9 @@ public class main extends JPanel {
 
     static int ArcAns;
 
+    /*
+     文件保存
+     */
     public static void WriteFile(int Ans, double RunTime, int AnsRoute[]) throws FileNotFoundException {
         PrintStream Cout=new PrintStream("res.txt");
         ArcAns=Ans;
