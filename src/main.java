@@ -91,7 +91,7 @@ public class main extends JPanel {
         int Height=getHeight();
         g2D.draw(new Line2D.Double(Space,Space,Space,Height-Space));
         g2D.draw(new Line2D.Double(Space,Height-Space,Width-Space,Height-Space));
-        Font font=new Font("Sarasa Fixed HC",Font.PLAIN,10);
+        Font font=new Font("Microsoft YaHei UI",Font.PLAIN,10);
         g2D.setFont(font);
         g2D.drawString("0",Space-10,Height-Space+10);
         g2D.drawString("Weight",Width-Space-20,Height-Space+10);

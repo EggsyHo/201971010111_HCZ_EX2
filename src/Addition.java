@@ -20,7 +20,7 @@ public class Addition extends JFrame{
             g.fillArc(5, 10, r, r, 0, Percent);
             g.setColor(Color.lightGray);
             g.fillArc(5,10,r,r,Percent,360-Percent);
-            Font font=new Font("Sarasa Fixed HC",Font.PLAIN,10);
+            Font font=new Font("Microsoft YaHei UI",Font.PLAIN,10);
             g.setFont(font);
             g.setColor(Color.black);
             g.drawString("粉色：背包可容纳价值",5,300);
